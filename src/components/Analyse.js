@@ -1,10 +1,12 @@
-import React from "react";
-import { TouchableOpacity, Text, StyleSheet, Alert } from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity, Text, StyleSheet, Alert, View } from "react-native";
 import * as FileSystem from "expo-file-system";
 
 import OpenAI from "openai";
 
 import { OPENAI_API_KEY } from "@env";
+
+import { useLoading } from "../contexts/LoadingContext";
 
 // Initialisation de l'API avec la clé
 const openai = new OpenAI({
@@ -13,6 +15,8 @@ const openai = new OpenAI({
 });
 
 export default function Analyse({ image }) {
+  const { setLoading } = useLoading();
+
   const handleThemeSong = async () => {
     if (!image) {
       Alert.alert(
@@ -21,6 +25,8 @@ export default function Analyse({ image }) {
       );
       return;
     }
+
+    setLoading(true);
 
     try {
       // Conversion de l'image en base64
@@ -34,10 +40,16 @@ export default function Analyse({ image }) {
         and see the 'theme song' that corresponds to the image they sent.
 
         You can respond with any song, music, movie score, comic book soundtrack, 
-        manga soundtrack... whether it has lyrics or is instrumental, 
+        manga soundtrack, meme songs... whether it has lyrics or is instrumental, 
         and from any era or language.
 
+        Try to be creative and think outside of only english.
+
+        You can be serious, unserious, funny, or anything in between even trolling if you want.
+
         Try to adapt your response based on what you see.
+
+        Avoid overly obvious or cliché choices such as "Happy" by Pharrell Williams for someone smiling...
 
         No additional text, comments, or explanation. Just the song and artist.
         Like this format "Gagnam Style - PSY".
@@ -71,6 +83,8 @@ export default function Analyse({ image }) {
         "Erreur",
         "Une erreur est survenue lors de l'analyse de l'image."
       );
+    } finally {
+      setLoading(false);
     }
   };
 

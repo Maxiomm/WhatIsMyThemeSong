@@ -35,6 +35,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "packagerOpts": {
+        "hostType": "localhost",
+        "dev": true,
+        "minify": false
     }
   }
 }
