@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 
 import Frame from "../components/Frame";
 import ImagePickerButton from "../components/ImagePickerButton";
@@ -13,6 +13,8 @@ export default function HomePage() {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <Text style={styles.title}>What is my Theme Song ?</Text>
+
         <Frame imageUri={image} />
 
         <Analyse image={image} />
@@ -38,5 +40,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 20,
     paddingHorizontal: 20,
+  },
+
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#6200EE",
+    marginBottom: 40,
   },
 });
