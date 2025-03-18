@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "WhatIsMyThemeSong",
-    "slug": "WhatIsMyThemeSong",
+    "name": "What Is My Theme Song ?",
+    "slug": "What Is My Theme Song ?",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,13 +13,25 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.maximerollin.WhatIsMyThemeSong",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Nous avons besoin d'accéder à votre caméra pour prendre des photos.",
+        "NSPhotoLibraryUsageDescription": "Nous avons besoin d'accéder à votre galerie pour ajouter des photos.",
+        "NSPhotoLibraryAddUsageDescription": "Nous avons besoin d'accéder à votre galerie pour enregistrer des photos."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.maximerollin.WhatIsMyThemeSong",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
