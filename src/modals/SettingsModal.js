@@ -29,7 +29,7 @@ export default function SettingsModal() {
             style={styles.closeButton}
             onPress={() => setModalVisible(false)}
           >
-            <Entypo name="cross" size={28} color="#6200EE" />
+            <Entypo name="cross" size={32} color="#6200EE" />
           </TouchableOpacity>
 
           <Text style={styles.title}>Paramètres</Text>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   closeButton: {
     position: "absolute",
     top: 60,
-    left: 20,
+    left: 10,
     padding: 10,
   },
 

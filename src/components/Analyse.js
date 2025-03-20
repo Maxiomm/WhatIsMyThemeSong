@@ -8,14 +8,21 @@ import { OPENAI_API_KEY } from "@env";
 
 import { useLoading } from "../contexts/LoadingContext";
 
+import { getSongDetails } from "../utils/getSongDetails";
+
+import MusicModal from "../modals/MusicModal";
+
 // Initialisation de l'API avec la clé
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 });
 
-export default function Analyse({ image }) {
+export default function Analyse({ image, triggerConfetti }) {
   const { setLoading } = useLoading();
+
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [songInfo, setSongInfo] = useState({});
 
   const handleThemeSong = async () => {
     if (!image) {
@@ -74,9 +81,26 @@ export default function Analyse({ image }) {
         ],
       });
 
-      const songSuggestion = completion.choices[0].message.content.trim();
+      // console.log(
+      //   `🔎 Tokens utilisés :`,
+      //   completion.usage?.total_tokens || "Indisponible"
+      // );
 
-      Alert.alert("🎵 Your theme song is...", songSuggestion);
+      const songSuggestion = completion.choices[0].message.content.trim();
+      const [title, artist] = songSuggestion.split(" - ");
+
+      const spotifyData = await getSongDetails(title.trim(), artist.trim());
+
+      if (!spotifyData) {
+        Alert.alert(
+          "Erreur",
+          "Impossible de trouver cette musique sur Spotify."
+        );
+        return;
+      }
+
+      setSongInfo(spotifyData);
+      setModalVisible(true);
     } catch (error) {
       console.error("Error sending image to OpenAI:", error);
       Alert.alert(
@@ -89,9 +113,18 @@ export default function Analyse({ image }) {
   };
 
   return (
-    <TouchableOpacity style={styles.button} onPress={handleThemeSong}>
-      <Text style={styles.text}>Analyse</Text>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity style={styles.button} onPress={handleThemeSong}>
+        <Text style={styles.text}>Analyse</Text>
+      </TouchableOpacity>
+
+      {/* Modale affichant les infos de la musique */}
+      <MusicModal
+        isVisible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        songInfo={songInfo}
+      />
+    </>
   );
 }
 
